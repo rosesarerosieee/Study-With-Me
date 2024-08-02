@@ -6,8 +6,16 @@
 }
 
 .card{
-    background-color: red;
+    background-color: cyan;
     width: 400px;
     height: 90vh;
     border-radius: 50px;
+}
+
+li{
+    cursor: pointer;
+}
+
+.done{
+    text-decoration: line-through;
 }
