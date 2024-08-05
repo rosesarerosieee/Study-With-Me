@@ -19,3 +19,15 @@ li{
 .done{
     text-decoration: line-through;
 }
+
+.audioplayer{
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    gap: 20px;
+}
+
+.arrow-right, .play, .arrow-left{
+    font-size: 1.4rem;
+    cursor: pointer;
+}

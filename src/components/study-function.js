@@ -1,5 +1,11 @@
 import React, {useState, useEffect, useRef} from "react";
 import './study.css'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlay, faSquareCaretRight, faSquareCaretLeft, faPause } from '@fortawesome/free-solid-svg-icons';
+import lofi1 from '../assets/1lofi.mp3';
+import lofi2 from '../assets/2lofi.mp3'
+import lofi3 from '../assets/3lofi.mp3'
+
 
 const Study =() => {
 
@@ -13,42 +19,42 @@ const Study =() => {
     const [tasks, setTasks] = useState([]);
     const [taskInput, setTaskInput] = useState('');
 
+    {/*Audio Variables*/}
+    const audioRef = useRef(null);
+    const [isPlaying, setIsPlaying] = useState(false);
+    const [currentAudio, setCurrentAudio] = useState(0);
+
+    const audioFile = [
+        {src: lofi1, name: 'For The Last Time', artis: 'Hoko, Lucie Cravero'},
+        {src: lofi2, name: 'Astral Scape', artis: 'Prithvi'},
+        {src: lofi3, name: 'Shogun Street', artis:'Prithvi'}
+
+    ]
+
     const updateTime = () => {
         if(isRunning){
             const now = Date.now();
-            const elapsedTime = now - startTimeRef.current;
-            setTime(elapsedTime);
+            const timeElapsed = now - startTimeRef.current;
+            setTime(timeElapsed);
         }
     }
-
+ 
 {/*Time function */}
-    useEffect(() => {
 
+    useEffect(() => {
         if(isRunning){
             startTimeRef.current = Date.now() - time;
             intervalRef.current = setInterval(updateTime, 10);
-        }else if (!isRunning && intervalRef.current){
+        
+        } else if (!isRunning && intervalRef.current){
             clearInterval(intervalRef.current);
         }
-         
+
         return () => {
             clearInterval(intervalRef.current);
-          
         }
-
-    },[isRunning]);
-
-    useEffect(() => {
-
-        if(tasks.length === 0){
-            setIsRunning(false);
-        }
-        else{
-            setIsRunning(true);
-        }
-
-    },[tasks]);
-
+    });
+  
     const handleStartStop = () => {
         setIsRunning(!isRunning);
     }
@@ -96,11 +102,45 @@ const Study =() => {
         setTasks(deletedTasks);
       };
 
+      {/*Audi Functions*/}
+
+      useEffect(() => {
+        if(isPlaying){
+            audioRef.current.play();
+        }
+        else{
+            audioRef.current.pause();
+        }
+      },[currentAudio, isPlaying]);
+
+      const handleAudioPlayPause = () => {
+
+        setIsPlaying(!isPlaying)
+        
+      };
+
+      const hanldeAudioPrevious = () => {
+        
+        setCurrentAudio((prevAudio) => (prevAudio - 1 + audioFile.length) % audioFile.length);
+        setIsPlaying(true)
+      }
+
+      const handleAudioNext = () => {
+
+        setCurrentAudio((prevAudio) => (prevAudio  + 1 ) % audioFile.length);
+        setIsPlaying(true)
+        
+      };
+
+    
+
 
     return (
         <>
         <div className="container">
             <div className="card">
+
+                
 
                 <button onClick={handleStartStop}>{isRunning ? 'Stop' : 'Start'}</button>
 
@@ -134,6 +174,19 @@ const Study =() => {
             </div>
         </div>
 
+        <audio ref={audioRef} key={audioFile[currentAudio].src}>
+                    <source src={audioFile[currentAudio].src} type="audio/mp3"></source>
+        </audio>
+        
+        <div className="audioplayer">
+        <FontAwesomeIcon icon={faSquareCaretLeft} className="arrow-right" onClick={hanldeAudioPrevious}/>                
+        <FontAwesomeIcon 
+        icon={isPlaying ? faPause : faPlay}
+        className="play" 
+        onClick={handleAudioPlayPause}/>
+        <FontAwesomeIcon icon={faSquareCaretRight} className="arrow-left" onClick={handleAudioNext} />
+        <h2>Now playing: {audioFile[currentAudio].name}, by: {audioFile[currentAudio].artis}</h2>
+        </div>
 
         </>
     )
