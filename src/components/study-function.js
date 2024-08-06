@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useRef} from "react";
 import './study.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlay, faSquareCaretRight, faSquareCaretLeft, faPause } from '@fortawesome/free-solid-svg-icons';
+import { faPlay, faStop, faPause, faBackward, faForward, faRotateLeft, faTrash} from '@fortawesome/free-solid-svg-icons';
 import lofi1 from '../assets/1lofi.mp3';
 import lofi2 from '../assets/2lofi.mp3'
 import lofi3 from '../assets/3lofi.mp3'
@@ -63,7 +63,7 @@ const Study =() => {
         setIsRunning(false);
         setTime(0);
     }
-
+    
     const formatTime = (time) => {
         const milliseconds = time % 1000;
         const seconds = Math.floor((time / 1000) % 60);
@@ -114,9 +114,7 @@ const Study =() => {
       },[currentAudio, isPlaying]);
 
       const handleAudioPlayPause = () => {
-
-        setIsPlaying(!isPlaying)
-        
+        setIsPlaying(!isPlaying);
       };
 
       const hanldeAudioPrevious = () => {
@@ -140,12 +138,26 @@ const Study =() => {
         <div className="container">
             <div className="card">
 
-                
+                <div className="timer-container">
+                    <div className="timer-buttons">
+                            <FontAwesomeIcon
+                                icon={isRunning ? faStop : faPlay}
+                                className="start-time"
+                                onClick={handleStartStop}
+                            />
 
-                <button onClick={handleStartStop}>{isRunning ? 'Stop' : 'Start'}</button>
+                            <FontAwesomeIcon
+                                icon={faRotateLeft}
+                                className="reset"
+                                onClick={handleReset}
+                            />
+                    </div>
 
-                <button onClick={handleReset} disabled={isRunning}>Reset</button>
-                <h2>{formatTime(time)}</h2>
+                    <div className="timer-format">
+                        <h2>{formatTime(time)}</h2>
+                    </div>
+
+                </div>
 
                 <form onSubmit={handleSubmit}>
                     <input
@@ -157,35 +169,60 @@ const Study =() => {
 
                     <button type="submit">Enter task</button>
                 </form>
-
-                <ul>
-                    {tasks.map((task, index) => (
-                        <li key={index} 
-                        className={task.completed ? 'done' : ''}
-                        onClick={() => handleCompleted(index)}
-                        >   
-                            
-                            {task.text}
-                            <button onClick={(e) => {e.stopPropagation(); handleDelete(index)}}>Delete</button>
-                        </li>
-                    ))}
-                </ul>
                 
+               
+                    <ul className="ul-task">
+
+                        {tasks.map((task, index) => (
+                            <li key={index} 
+                                className={`list-task ${task.completed ? 'done' : ''}`}
+                                onClick={() => handleCompleted(index)}
+                            >   
+                            <div className="task-text-container">
+                                {task.text}
+                            </div>
+                                <FontAwesomeIcon
+                                    icon={faTrash}
+                                    className="delete-task"
+                                    onClick={(e) => {e.stopPropagation(); handleDelete(index);}}
+                                />
+                            </li>
+                        ))}
+
+                    </ul>
+
             </div>
         </div>
+       
 
-        <audio ref={audioRef} key={audioFile[currentAudio].src}>
-                    <source src={audioFile[currentAudio].src} type="audio/mp3"></source>
-        </audio>
+        <div className="audio-container">
+            <audio ref={audioRef} key={audioFile[currentAudio].src}>
+                <source src={audioFile[currentAudio].src} type="audio/mp3"></source>
+            </audio>
         
-        <div className="audioplayer">
-        <FontAwesomeIcon icon={faSquareCaretLeft} className="arrow-right" onClick={hanldeAudioPrevious}/>                
-        <FontAwesomeIcon 
-        icon={isPlaying ? faPause : faPlay}
-        className="play" 
-        onClick={handleAudioPlayPause}/>
-        <FontAwesomeIcon icon={faSquareCaretRight} className="arrow-left" onClick={handleAudioNext} />
-        <h2>Now playing: {audioFile[currentAudio].name}, by: {audioFile[currentAudio].artis}</h2>
+            <div className="audioplayer">
+
+            <FontAwesomeIcon 
+                icon={faBackward} 
+                className="arrow-right" 
+                onClick={hanldeAudioPrevious}
+            />
+                        
+            <FontAwesomeIcon 
+                icon={isPlaying ? faPause : faPlay}
+                className="play-pause"
+                onClick={handleAudioPlayPause}
+            />
+
+            <FontAwesomeIcon 
+                icon={faForward} 
+                className="arrow-left" 
+                onClick={handleAudioNext} 
+            />
+
+            <h2 className="audio name">Now playing: {audioFile[currentAudio].name}, by: {audioFile[currentAudio].artis}</h2>
+            </div>
+
         </div>
 
         </>
