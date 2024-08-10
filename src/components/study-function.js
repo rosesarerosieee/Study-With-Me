@@ -1,10 +1,8 @@
 import React, {useState, useEffect, useRef} from "react";
 import './study.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlay, faStop, faPause, faBackward, faForward, faRotateLeft, faTrash} from '@fortawesome/free-solid-svg-icons';
-import lofi1 from '../assets/1lofi.mp3';
-import lofi2 from '../assets/2lofi.mp3'
-import lofi3 from '../assets/3lofi.mp3'
+import {faPlay, faStop, faRotateLeft, faTrash} from '@fortawesome/free-solid-svg-icons';
+
 
 
 const Study =() => {
@@ -18,18 +16,8 @@ const Study =() => {
     {/*Task variables S*/}
     const [tasks, setTasks] = useState([]);
     const [taskInput, setTaskInput] = useState('');
-
-    {/*Audio Variables*/}
-    const audioRef = useRef(null);
-    const [isPlaying, setIsPlaying] = useState(false);
-    const [currentAudio, setCurrentAudio] = useState(0);
-
-    const audioFile = [
-        {src: lofi1, name: 'For The Last Time', artis: 'Hoko, Lucie Cravero'},
-        {src: lofi2, name: 'Astral Scape', artis: 'Prithvi'},
-        {src: lofi3, name: 'Shogun Street', artis:'Prithvi'}
-
-    ]
+        
+    {/*Time function */}
 
     const updateTime = () => {
         if(isRunning){
@@ -38,8 +26,6 @@ const Study =() => {
             setTime(timeElapsed);
         }
     }
- 
-{/*Time function */}
 
     useEffect(() => {
         if(isRunning){
@@ -56,7 +42,11 @@ const Study =() => {
     });
   
     const handleStartStop = () => {
-        setIsRunning(!isRunning);
+       if(tasks.length === 0){
+        alert('Please Enter a task first so you can start the timer.');
+        return;
+       }
+       setIsRunning(!isRunning);        
     }
     
     const handleReset = () => {
@@ -79,14 +69,13 @@ const Study =() => {
       };
 
     {/*Task Functions */}
-      const handleSubmit = (e) => {
+     const handleSubmit = (e) => {
         e.preventDefault();
-        if(taskInput.trim() !== '')
-        {
-            setTasks([...tasks, {text:taskInput, completed: false}]);
-            setTaskInput('');
+        if(taskInput.trim() !== ''){
+            setTasks([...tasks, {text: taskInput, completed: false}])
+            setTaskInput('')
         }
-      };
+     }
       
       const handleCompleted = (id) => {
         const updatedTasks = tasks.map((task, index) => 
@@ -101,37 +90,6 @@ const Study =() => {
 
         setTasks(deletedTasks);
       };
-
-      {/*Audi Functions*/}
-
-      useEffect(() => {
-        if(isPlaying){
-            audioRef.current.play();
-        }
-        else{
-            audioRef.current.pause();
-        }
-      },[currentAudio, isPlaying]);
-
-      const handleAudioPlayPause = () => {
-        setIsPlaying(!isPlaying);
-      };
-
-      const hanldeAudioPrevious = () => {
-        
-        setCurrentAudio((prevAudio) => (prevAudio - 1 + audioFile.length) % audioFile.length);
-        setIsPlaying(true)
-      }
-
-      const handleAudioNext = () => {
-
-        setCurrentAudio((prevAudio) => (prevAudio  + 1 ) % audioFile.length);
-        setIsPlaying(true)
-        
-      };
-
-    
-
 
     return (
         <>
@@ -160,19 +118,24 @@ const Study =() => {
                 </div>
 
                 <form onSubmit={handleSubmit}>
+                    <div className="task-input">
                     <input
                         type="text"
                         value={taskInput}
+                        className="task-input"
                         onChange={(e) => setTaskInput(e.target.value)}
                         placeholder="Enter task"
                     />
+                    </div>
 
+                    <div className="enter-task">
                     <button type="submit">Enter task</button>
+                    </div>
+                    
                 </form>
                 
                
                     <ul className="ul-task">
-
                         {tasks.map((task, index) => (
                             <li key={index} 
                                 className={`list-task ${task.completed ? 'done' : ''}`}
@@ -193,38 +156,7 @@ const Study =() => {
 
             </div>
         </div>
-       
-
-        <div className="audio-container">
-            <audio ref={audioRef} key={audioFile[currentAudio].src}>
-                <source src={audioFile[currentAudio].src} type="audio/mp3"></source>
-            </audio>
-        
-            <div className="audioplayer">
-
-            <FontAwesomeIcon 
-                icon={faBackward} 
-                className="arrow-right" 
-                onClick={hanldeAudioPrevious}
-            />
-                        
-            <FontAwesomeIcon 
-                icon={isPlaying ? faPause : faPlay}
-                className="play-pause"
-                onClick={handleAudioPlayPause}
-            />
-
-            <FontAwesomeIcon 
-                icon={faForward} 
-                className="arrow-left" 
-                onClick={handleAudioNext} 
-            />
-
-            <h2 className="audio name">Now playing: {audioFile[currentAudio].name}, by: {audioFile[currentAudio].artis}</h2>
-            </div>
-
-        </div>
-
+    
         </>
     )
 
