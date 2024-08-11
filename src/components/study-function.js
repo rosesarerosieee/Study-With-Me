@@ -118,7 +118,8 @@ const Study =() => {
                 </div>
 
                 <form onSubmit={handleSubmit}>
-                    <div className="task-input">
+                <div className="task-container">
+                    <div className="task-input-container">
                     <input
                         type="text"
                         value={taskInput}
@@ -130,6 +131,7 @@ const Study =() => {
 
                     <div className="enter-task">
                     <button type="submit">Enter task</button>
+                    </div>
                     </div>
                     
                 </form>

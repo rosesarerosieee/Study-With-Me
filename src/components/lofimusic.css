@@ -4,7 +4,7 @@
     justify-content: center;
     position: fixed;
     flex-direction: column;
-    height: 10vh;
+    height: 8vh;
     width: 100%;
     bottom: 0;
     
@@ -29,5 +29,7 @@
 
 .play-previous, .pause-play, .play-next{
     cursor: pointer;
-    font-size: 2rem;
+    font-size: 1.3rem;
 }
+
+
