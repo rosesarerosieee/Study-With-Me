@@ -1,11 +1,9 @@
 import { useState } from 'react';
-import lofi1 from '../assets/1lofi.mp3';
-import lofi2 from '../assets/2lofi.mp3';
-import lofi3 from '../assets/3lofi.mp3';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faPlay, faPause, faBackward, faForward,} from '@fortawesome/free-solid-svg-icons';
 import {useRef, useEffect} from 'react';
-import './lofimusic.css'
+import './lofimusic.css';
+import { audioFile } from './audiofile';
 
 const Lofimusic = () => {
 
@@ -18,12 +16,7 @@ const Lofimusic = () => {
 
 
 
-    const audioFile = [
-        {src: lofi1, name: 'For The Last Time', artist: 'Hoko, Lucie Cravero'},
-        {src: lofi2, name: 'Astral Scape', artist: 'Prithvi'},
-        {src: lofi3, name: 'Shogun Street', artist:'Prithvi'}
-    
-    ]
+
 
     useEffect(() => {
 
@@ -93,49 +86,58 @@ const Lofimusic = () => {
     return(
     <>
         <div className='audio-container'>
-            <div className='audio-icons'>
-                <FontAwesomeIcon
-                    icon={faBackward}
-                    className='play-previous'
-                    onClick={handlePlayPrevious}
-
-                />
-
-                <FontAwesomeIcon
-                    icon={isPlaying ? faPause : faPlay}
-                    className='pause-play'
-                    onClick={handlePlayPause}
-                />
-
-                <FontAwesomeIcon
-                    icon={faForward}
-                    className='play-next'
-                    onClick={handlePlayNext}
-                />
-
-                <input
-                    type='range'
-                    min='0'
-                    max={duration}
-                    value={currentTime}                
-                    onChange={handleSliderChange}
-                    onMouseUp={handleSliderChange}
-                    className='audio-slider'
-                />
-
-                <div className='audio-time'>
-                <span>{formatTime(currentTime)} / {formatTime(duration)}</span>
-                     
-                </div>
+            <div className='audio-text'>
+                <h2 className='audioname'>{audioFile[currentAudio].name}</h2>
+                <span className='artisname'>{audioFile[currentAudio].artist}</span>
             </div>
+            <div className='audio-icons-container'>
+                
+                <div className='audio-icons'>
+                    <FontAwesomeIcon
+                        icon={faBackward}
+                        className='play-previous'
+                        onClick={handlePlayPrevious}
+
+                    />
+
+                    <FontAwesomeIcon
+                        icon={isPlaying ? faPause : faPlay}
+                        className='pause-play'
+                        onClick={handlePlayPause}
+                    />
+
+                    <FontAwesomeIcon
+                        icon={faForward}
+                        className='play-next'
+                        onClick={handlePlayNext}
+                    />
+                </div>
+                <div className='range-container'>
+                        <span className='starting-audio-time'>{formatTime(currentTime)}</span>
+                        <input
+                            type='range'
+                            min='0'
+                            max={duration}
+                            value={currentTime}                
+                            onChange={handleSliderChange}
+                            onMouseUp={handleSliderChange}
+                            className='audio-slider'
+                        />
+                        <span className='end-audio-time'>{formatTime(duration)}</span>
+                </div>
+
+                  
+                
+            </div>
+            
 
             <audio ref={audioRef} key={audioFile[currentAudio].src}>
                 <source src={audioFile[currentAudio].src} type='audio/mp3'></source>
             </audio>
 
-            <div className='audio-text'>
-                <h2>Now playing: {audioFile[currentAudio].name} by: {audioFile[currentAudio].artist}</h2>
-            </div>
+            
+             
+
         </div>
   
     </>
