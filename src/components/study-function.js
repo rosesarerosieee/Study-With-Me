@@ -89,7 +89,8 @@ const Study =() => {
         const deletedTasks = tasks.filter((_, i) => i !== index);
 
         setTasks(deletedTasks);
-      };
+      }; 
+      
 
     return (
         <>

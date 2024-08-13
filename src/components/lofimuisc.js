@@ -31,8 +31,13 @@ const Lofimusic = () => {
         };     
 
         const handleTimeUpdated = () => {
+            const audio = audioRef.current;
             setCurrentTime(audio.currentTime);
-        }
+            
+            const percentage = (audio.currentTime / duration) * 100;
+            document.querySelector('.audio-slider').style.background = `linear-gradient(to right, #1DB954 ${percentage}%, black ${percentage}%)`;
+        };
+        
 
         audio.addEventListener("timeupdate", handleTimeUpdated)
         audio.addEventListener("loadedmetadata", handleMetaData)
@@ -71,10 +76,14 @@ const Lofimusic = () => {
     };
 
     const handleSliderChange = (e) => {
-        const newTime = parseFloat(e.target.value)
+        const newTime = parseFloat(e.target.value);
         audioRef.current.currentTime = newTime;
         setCurrentTime(newTime);
-    }
+    
+        const percentage = (newTime / duration) * 100;
+        e.target.style.background = `linear-gradient(to right, #1DB954 ${percentage}%, black ${percentage}%)`;
+    };
+    
 
     const formatTime = (time) => {
         const minutes = Math.floor(time / 60);
