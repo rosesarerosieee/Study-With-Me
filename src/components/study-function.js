@@ -16,6 +16,11 @@ const Study =() => {
     {/*Task variables S*/}
     const [tasks, setTasks] = useState([]);
     const [taskInput, setTaskInput] = useState('');
+    const [pendingTask, setPendingTasks] = useState(false);
+
+    {/*animate state variable */}
+    const [animeteState , setAnimateState] = useState(false);
+
         
     {/*Time function */}
 
@@ -40,6 +45,13 @@ const Study =() => {
             clearInterval(intervalRef.current);
         }
     });
+
+    useEffect(() => {
+        if(tasks.length === 0){
+            setIsRunning(false);
+        }
+
+    },[isRunning],[tasks]);
   
     const handleStartStop = () => {
        if(tasks.length === 0){
@@ -72,7 +84,7 @@ const Study =() => {
      const handleSubmit = (e) => {
         e.preventDefault();
         if(taskInput.trim() !== ''){
-            setTasks([...tasks, {text: taskInput, completed: false}])
+            setTasks([...tasks, {text: taskInput, completed: false }])
             setTaskInput('')
         }
      }
@@ -90,6 +102,31 @@ const Study =() => {
 
         setTasks(deletedTasks);
       }; 
+
+      const handlePendingTasks = () => {
+        if(tasks.length > 0){
+            setPendingTasks(true);
+        }
+        else{
+            setPendingTasks(false);
+        }
+      };
+
+      useEffect(() => {
+        handlePendingTasks();
+        triggerAnimation();
+      },[tasks]);
+
+      const triggerAnimation = () => {
+         setAnimateState(true);
+         setTimeout(() => setAnimateState(true), 1000);
+      };
+
+      useEffect(() => {
+        if(tasks){
+            triggerAnimation();
+        }
+      },[tasks]);
       
 
     return (
@@ -118,6 +155,9 @@ const Study =() => {
 
                 </div>
 
+                {tasks.length > 0 && (
+                <span className={`number-of-task ${pendingTask ? 'show' : ''}, ${animeteState ? 'pop-up' : ''}`}>Your pending tasks: {tasks.length}</span>
+                )}
                 <form onSubmit={handleSubmit}>
                 <div className="task-container">
                     <div className="task-input-container">
@@ -144,7 +184,7 @@ const Study =() => {
                                 className={`list-task ${task.completed ? 'done' : ''}`}
                                 onClick={() => handleCompleted(index)}
                             >   
-                            <div className="task-text-container">
+                            <div className={`task-text-container ${animeteState ? 'pop-up' : '   '}`}>
                                 {task.text}
                             </div>
                                 <FontAwesomeIcon
