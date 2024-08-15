@@ -3,8 +3,6 @@ import './study.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faPlay, faStop, faRotateLeft, faTrash} from '@fortawesome/free-solid-svg-icons';
 
-
-
 const Study =() => {
 
     {/*Time variables */}
@@ -13,11 +11,16 @@ const Study =() => {
     const intervalRef = useRef(null);
     const startTimeRef = useRef(null);
 
+   
+
+    
     {/*Task variables S*/}
     const [tasks, setTasks] = useState([]);
     const [taskInput, setTaskInput] = useState('');
     const [pendingTask, setPendingTasks] = useState(false);
-
+    const [isCompleted, setIsCompleted] = useState(false);
+    const completedTasksNumber = tasks.filter(task => task.completed).length;
+    
     {/*animate state variable */}
     const [animeteState , setAnimateState] = useState(false);
 
@@ -51,7 +54,7 @@ const Study =() => {
             setIsRunning(false);
         }
 
-    },[isRunning],[tasks]);
+    },[isRunning, tasks]);
   
     const handleStartStop = () => {
        if(tasks.length === 0){
@@ -88,7 +91,7 @@ const Study =() => {
             setTaskInput('')
         }
      }
-      
+    
       const handleCompleted = (id) => {
         const updatedTasks = tasks.map((task, index) => 
         index === id ? {...task, completed: !task.completed} : task
@@ -103,6 +106,10 @@ const Study =() => {
         setTasks(deletedTasks);
       }; 
 
+      const handleDeleteAll = () => {
+        setTasks([]);
+      };
+
       const handlePendingTasks = () => {
         if(tasks.length > 0){
             setPendingTasks(true);
@@ -116,6 +123,20 @@ const Study =() => {
         handlePendingTasks();
         triggerAnimation();
       },[tasks]);
+      
+      const handleCompletedTasks = () => {
+        if(tasks.length > 0){
+            setIsCompleted(true);
+        }
+        else{
+            setIsCompleted(false);
+        }
+      };
+
+      useEffect(() => {
+        handleCompletedTasks();
+        triggerAnimation();
+      },[tasks])
 
       const triggerAnimation = () => {
          setAnimateState(true);
@@ -128,12 +149,31 @@ const Study =() => {
         }
       },[tasks]);
       
+     
 
     return (
         <>
         <div className="container">
-            <div className="card">
 
+            
+            <div className="humberger">
+                <span className="bar"></span>
+                <span className="bar"></span>
+                <span className="bar"></span>
+            </div>
+
+            <div className="overview">
+                    <div className="complete-and-pending">
+
+                        {tasks.length > 0 && (
+                            <span className={`number-of-completed ${isCompleted ? 'visible' : ''}`}>
+                                Your completed Task: {completedTasksNumber}
+                            </span>
+                        )}
+                    </div>
+            </div>
+
+            <div className="card">
                 <div className="timer-container">
                     <div className="timer-buttons">
                             <FontAwesomeIcon
@@ -155,9 +195,14 @@ const Study =() => {
 
                 </div>
 
+
                 {tasks.length > 0 && (
-                <span className={`number-of-task ${pendingTask ? 'show' : ''}, ${animeteState ? 'pop-up' : ''}`}>Your pending tasks: {tasks.length}</span>
+
+                    <span className={`number-of-task ${pendingTask ? 'show' : ''}, ${animeteState ? 'pop-up' : ''}`}>
+                        Number of task: {tasks.length}
+                    </span>
                 )}
+
                 <form onSubmit={handleSubmit}>
                 <div className="task-container">
                     <div className="task-input-container">
@@ -173,7 +218,12 @@ const Study =() => {
                     <div className="enter-task">
                     <button type="submit">Enter task</button>
                     </div>
+
+                    <div className="Delete-all">
+                        <button onClick={handleDeleteAll}>Delete</button>
                     </div>
+
+                </div>
                     
                 </form>
                 
@@ -198,6 +248,8 @@ const Study =() => {
                     </ul>
 
             </div>
+
+            
         </div>
     
         </>
