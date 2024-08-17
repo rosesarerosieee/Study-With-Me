@@ -11,8 +11,6 @@ const Study =() => {
     const intervalRef = useRef(null);
     const startTimeRef = useRef(null);
 
-   
-
     
     {/*Task variables S*/}
     const [tasks, setTasks] = useState([]);
@@ -20,9 +18,11 @@ const Study =() => {
     const [pendingTask, setPendingTasks] = useState(false);
     const [isCompleted, setIsCompleted] = useState(false);
     const completedTasksNumber = tasks.filter(task => task.completed).length;
+    const completedTasks = tasks.filter(task => task.completed).map(task=> task.text);
     
     {/*animate state variable */}
     const [animeteState , setAnimateState] = useState(false);
+    const [isActive, setIsActive] = useState(false);
 
         
     {/*Time function */}
@@ -143,6 +143,11 @@ const Study =() => {
          setTimeout(() => setAnimateState(true), 1000);
       };
 
+      const triggerHamburger = () => {
+        console.log("hamburger clicked!");
+        setIsActive(!isActive);
+      }
+
       useEffect(() => {
         if(tasks){
             triggerAnimation();
@@ -156,20 +161,33 @@ const Study =() => {
         <div className="container">
 
             
-            <div className="humberger">
+            <div className={`humberger ${isActive ? 'active' : ''}`} onClick={triggerHamburger}>
                 <span className="bar"></span>
                 <span className="bar"></span>
                 <span className="bar"></span>
             </div>
 
-            <div className="overview">
+            <div className={`overview ${isActive ? 'active' : ''}`}>
                     <div className="complete-and-pending">
 
                         {tasks.length > 0 && (
-                            <span className={`number-of-completed ${isCompleted ? 'visible' : ''}`}>
-                                Your completed Task: {completedTasksNumber}
-                            </span>
+                            <div className="completed-task">
+                                <span className={`number-of-completed ${isCompleted ? 'visible' : ''}`}>
+                                    Number of completed Task: {completedTasksNumber}
+                                </span>
+                                <span className={`name-of-completed ${isCompleted ? 'visible' : '' }`}>
+                                    Your completed Task: 
+                                        <ul>
+                                            {completedTasks.map((taskText, index) => (
+                                                <li key={index}>{taskText}</li>
+                                            ))}
+                                        </ul>
+
+                                </span>
+                           </div>
                         )}
+
+                        
                     </div>
             </div>
 
