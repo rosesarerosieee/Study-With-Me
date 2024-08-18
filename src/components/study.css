@@ -104,6 +104,29 @@
     font-size: 1.2rem;
 }
 
+.delete-all, .uncomplete-all{
+    position: relative;
+    animation: show 1s ease-in-out;
+    opacity: 0;
+}
+
+@keyframes show {
+    0%{
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    100%{
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+.show-button{
+    opacity: 1;
+    transition: pop-up 1s ease-in-out;
+}
+
 .task-text-container{
     padding: 10px;
     flex-grow: 1;
@@ -114,10 +137,18 @@
     animation: pop-up 1s ease-in-out;
 }
 
+.no-task{
+    opacity: 0;
+    animation: pop-up 1s ease-in-out;
+}
+
+.no-task.visible{
+    opacity: 1;
+}
+
 .number-of-completed{
     opacity: 0;
     animation: pop-up 1s ease-in-out;
-
 }
 
 .visible{
@@ -154,6 +185,10 @@
 }
 .humberger.active .bar:nth-child(3){
     transform: translateY(-10px) rotate(-45deg);
+}
+
+.unactive{
+    left: -100%;
 }
 
 .overview{

@@ -23,6 +23,7 @@ const Study =() => {
     {/*animate state variable */}
     const [animeteState , setAnimateState] = useState(false);
     const [isActive, setIsActive] = useState(false);
+    const [buttonShow, setButtonShow] = useState(false);
 
         
     {/*Time function */}
@@ -97,8 +98,16 @@ const Study =() => {
         index === id ? {...task, completed: !task.completed} : task
         );
         setTasks(updatedTasks);
+        triggerHamburger();
       };
 
+      const handleUncomplete = () => {
+        const updateTasks = tasks.map((task) => 
+            ({...task, completed: false})
+        );
+
+        setTasks(updateTasks);
+      };
       const handleDelete = (index) => {
 
         const deletedTasks = tasks.filter((_, i) => i !== index);
@@ -144,9 +153,18 @@ const Study =() => {
       };
 
       const triggerHamburger = () => {
-        console.log("hamburger clicked!");
-        setIsActive(!isActive);
+
+        if(tasks.length !== 0){
+            setIsActive(!isActive);
+        }
+        else{
+            alert("Please Enter a task");
+        }
+        
       }
+
+
+
 
       useEffect(() => {
         if(tasks){
@@ -167,12 +185,12 @@ const Study =() => {
                 <span className="bar"></span>
             </div>
 
-            <div className={`overview ${isActive ? 'active' : ''}`}>
+            <div className={`overview ${isActive ? 'active' : 'unactive'}`}>
                     <div className="complete-and-pending">
 
                         {tasks.length > 0 && (
                             <div className="completed-task">
-                                <span className={`number-of-completed ${isCompleted ? 'visible' : ''}`}>
+                                <span className={`number-of-completed ${isCompleted ? 'visible' : 'no-task.visible'}`}>
                                     Number of completed Task: {completedTasksNumber}
                                 </span>
                                 <span className={`name-of-completed ${isCompleted ? 'visible' : '' }`}>
@@ -236,10 +254,22 @@ const Study =() => {
                     <div className="enter-task">
                     <button type="submit">Enter task</button>
                     </div>
-
-                    <div className="Delete-all">
+                    
+                    
+                    {tasks.length > 0 && (
+                    
+                    <div className="delete-uncomplete">
+        
+                    <div className={`delete-all ${setButtonShow ? 'show-button' : ''}`}>
                         <button onClick={handleDeleteAll}>Delete</button>
                     </div>
+
+                    <div className={`uncomplete-all ${setButtonShow ? 'show-button' : ''}`}>
+                        <button onClick={handleUncomplete}>uncomplete</button>
+                    </div>
+                    </div>
+                    )}
+                 
 
                 </div>
                     
