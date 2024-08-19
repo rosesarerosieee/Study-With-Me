@@ -11,7 +11,6 @@ const Study =() => {
     const intervalRef = useRef(null);
     const startTimeRef = useRef(null);
 
-    
     {/*Task variables S*/}
     const [tasks, setTasks] = useState([]);
     const [taskInput, setTaskInput] = useState('');
@@ -98,7 +97,7 @@ const Study =() => {
         index === id ? {...task, completed: !task.completed} : task
         );
         setTasks(updatedTasks);
-        triggerHamburger();
+        
       };
 
       const handleUncomplete = () => {
@@ -113,10 +112,16 @@ const Study =() => {
         const deletedTasks = tasks.filter((_, i) => i !== index);
 
         setTasks(deletedTasks);
+
+        if(deletedTasks.length === 0) {
+            setIsActive(false);
+        }
+        
       }; 
 
       const handleDeleteAll = () => {
         setTasks([]);
+        setIsActive(false);
       };
 
       const handlePendingTasks = () => {
@@ -163,9 +168,6 @@ const Study =() => {
         
       }
 
-
-
-
       useEffect(() => {
         if(tasks){
             triggerAnimation();
@@ -185,7 +187,7 @@ const Study =() => {
                 <span className="bar"></span>
             </div>
 
-            <div className={`overview ${isActive ? 'active' : 'unactive'}`}>
+            <div className={`overview ${isActive ? 'active' : ''}`}>
                     <div className="complete-and-pending">
 
                         {tasks.length > 0 && (
@@ -204,7 +206,6 @@ const Study =() => {
                                 </span>
                            </div>
                         )}
-
                         
                     </div>
             </div>
@@ -275,7 +276,6 @@ const Study =() => {
                     
                 </form>
                 
-               
                     <ul className="ul-task">
                         {tasks.map((task, index) => (
                             <li key={index} 
