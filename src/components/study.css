@@ -187,16 +187,15 @@
     transform: translateY(-10px) rotate(-45deg);
 }
 
-.unactive{
-    left: -100%;
-}
+
 
 .overview{
     position: absolute;
     left: -100%;
+    width: 450px;
+    height: 100%;
+    top: 0;
     background-color: rebeccapurple;
-    width: 550px;
-    height: 250px;
     display: flex;
     align-items: center;
     gap: 20px;
@@ -209,17 +208,33 @@
 .completed-task{
     display: flex;
     flex-direction: column;
-    animation: pop-up 1s ease-in-out;
-  
+    animation: pop-up 1s ease-in-out
+}
+.ul-completed{
+    margin-top: 5px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 10px;
+}
 
+.ul-completed li{
+    font-weight: bolder;
 }
 
 .overview.active{
-    top:0;
     left: 0;
-    height: 100%;
-    transition: all 0.3s ease;    
+    transition: all 0.5s ease;    
    
+}
+
+.overview.inactive{
+    left: -100%;
+    transition: all 2s ease;
+}
+
+.task-time{
+    animation: pop-up 1s ease-in-out;
 }
 
 @keyframes pop-up{

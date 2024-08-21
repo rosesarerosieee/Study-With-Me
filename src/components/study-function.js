@@ -1,16 +1,19 @@
 import React, {useState, useEffect, useRef} from "react";
 import './study.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {faPlay, faStop, faRotateLeft, faTrash} from '@fortawesome/free-solid-svg-icons';
+import {faPlay, faStop, faRotateLeft, faTrash, faMinus} from '@fortawesome/free-solid-svg-icons';
 
 const Study =() => {
+
+    {/*Need to do is the what time the task got completed*/}
+    {/* Finalize the design and make it responsive   */}
 
     {/*Time variables */}
     const [time, setTime] = useState(0);
     const [isRunning, setIsRunning] = useState(false);
     const intervalRef = useRef(null);
     const startTimeRef = useRef(null);
-
+    
     {/*Task variables S*/}
     const [tasks, setTasks] = useState([]);
     const [taskInput, setTaskInput] = useState('');
@@ -94,7 +97,7 @@ const Study =() => {
     
       const handleCompleted = (id) => {
         const updatedTasks = tasks.map((task, index) => 
-        index === id ? {...task, completed: !task.completed} : task
+        index === id ? {...task, completed: !task.completed, completionTime: formatTime(time)} : task
         );
         setTasks(updatedTasks);
         
@@ -174,8 +177,7 @@ const Study =() => {
         }
       },[tasks]);
       
-     
-
+        
     return (
         <>
         <div className="container">
@@ -187,7 +189,7 @@ const Study =() => {
                 <span className="bar"></span>
             </div>
 
-            <div className={`overview ${isActive ? 'active' : ''}`}>
+            <div className={`overview ${isActive ? 'active' : 'inactive'}`}>
                     <div className="complete-and-pending">
 
                         {tasks.length > 0 && (
@@ -197,12 +199,15 @@ const Study =() => {
                                 </span>
                                 <span className={`name-of-completed ${isCompleted ? 'visible' : '' }`}>
                                     Your completed Task: 
-                                        <ul>
-                                            {completedTasks.map((taskText, index) => (
-                                                <li key={index}>{taskText}</li>
+                                        <ul className="ul-completed">
+                                            {tasks.map((task, index) => (
+                                                task.completed && (
+                                                    <li key={index} className={`task-time ${animeteState ? 'pop-up' : ''}`}>
+                                                        {task.text} : {task.completionTime}
+                                                    </li>
+                                                )
                                             ))}
                                         </ul>
-
                                 </span>
                            </div>
                         )}
@@ -231,7 +236,6 @@ const Study =() => {
                     </div>
 
                 </div>
-
 
                 {tasks.length > 0 && (
 
