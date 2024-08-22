@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useRef} from "react";
 import './study.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {faPlay, faStop, faRotateLeft, faTrash, faMinus} from '@fortawesome/free-solid-svg-icons';
+import {faPlay, faStop, faRotateLeft, faTrash, faMinus, faTrashCan, faTrashRestore} from '@fortawesome/free-solid-svg-icons';
 
 const Study =() => {
 
@@ -181,7 +181,7 @@ const Study =() => {
     return (
         <>
         <div className="container">
-
+            <h2 className="Title">Study With Me</h2>
             
             <div className={`humberger ${isActive ? 'active' : ''}`} onClick={triggerHamburger}>
                 <span className="bar"></span>
@@ -202,8 +202,10 @@ const Study =() => {
                                         <ul className="ul-completed">
                                             {tasks.map((task, index) => (
                                                 task.completed && (
-                                                    <li key={index} className={`task-time ${animeteState ? 'pop-up' : ''}`}>
-                                                        {task.text} : {task.completionTime}
+                                                    <li key={index} className={`task-time ${animeteState ? 'pop-up' : ''}`}> 
+                                                        <div className="completed-text-container">
+                                                            {task.text} : {task.completionTime}
+                                                        </div>
                                                     </li>
                                                 )
                                             ))}
@@ -236,13 +238,16 @@ const Study =() => {
                     </div>
 
                 </div>
+                
+                <div className="number-of-task-container">
+                    {tasks.length > 0 && (
 
-                {tasks.length > 0 && (
-
-                    <span className={`number-of-task ${pendingTask ? 'show' : ''}, ${animeteState ? 'pop-up' : ''}`}>
-                        Number of task: {tasks.length}
-                    </span>
-                )}
+                        <span className={`number-of-task ${pendingTask ? 'show' : ''}, ${animeteState ? 'pop-up' : ''}`}>
+                            Number of task: {tasks.length}
+                        </span>
+                        
+                    )}
+                </div>
 
                 <form onSubmit={handleSubmit}>
                 <div className="task-container">
@@ -266,11 +271,20 @@ const Study =() => {
                     <div className="delete-uncomplete">
         
                     <div className={`delete-all ${setButtonShow ? 'show-button' : ''}`}>
-                        <button onClick={handleDeleteAll}>Delete</button>
+                        <FontAwesomeIcon
+                            icon={faTrashCan}
+                            className="trash-can"
+                            onClick={handleDeleteAll}
+                        /> 
+                        <span className="span-delete">Delete-all</span>
                     </div>
 
                     <div className={`uncomplete-all ${setButtonShow ? 'show-button' : ''}`}>
-                        <button onClick={handleUncomplete}>uncomplete</button>
+                        <FontAwesomeIcon
+                            icon={faTrashRestore}
+                            className="trash-undo"
+                            onClick={handleUncomplete}
+                        /> <span className="span-uncomplete">Uncomplete</span>
                     </div>
                     </div>
                     )}
@@ -287,7 +301,7 @@ const Study =() => {
                                 onClick={() => handleCompleted(index)}
                             >   
                             <div className={`task-text-container ${animeteState ? 'pop-up' : '   '}`}>
-                                {task.text}
+                                <span className="task-text">{task.text}</span> 
                             </div>
                                 <FontAwesomeIcon
                                     icon={faTrash}
