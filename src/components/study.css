@@ -341,3 +341,52 @@ li{
     cursor: pointer;
 }
 
+
+
+@media (max-width: 767px){
+    .card{
+        width: 280px;
+        
+    }
+
+    .Title{
+        font-size: 1.6rem;
+    }
+
+    .humberger{
+        z-index: 9999999999999;
+    }
+    
+    .overview{
+        width: 300px;
+        z-index: 1000;
+    }
+
+    .timer-container{
+        height: 120px;
+        margin-bottom: 0;
+    }
+
+    .task-container{
+        position: relative;
+        width: 100%; 
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .task-input{
+        width: 180px;
+    }
+
+    .ul-task{
+        height: 220px;
+        align-items: center;
+        justify-content: center;
+        
+    }
+    .list-task{
+        align-self: center;
+        padding: 0;
+    }
+}
