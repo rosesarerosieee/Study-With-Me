@@ -113,3 +113,32 @@
     font-size: 0.9rem;
     
 }
+
+@media (max-width: 767px){
+    .audio-container{
+
+    }
+
+    .audio-icons-container{
+        position: relative;
+        width: 250px;
+        left: 50px;
+        height: auto;
+    }
+
+    .audioname, .artisname{
+        font-size: 0.7rem;
+    }
+    .artisname{
+        font-weight: bolder;
+    }
+
+    .audio-slider{
+        width: 100px;
+    }
+
+    .audio-text{
+        width: 100px;
+        height: auto;
+    }
+}
