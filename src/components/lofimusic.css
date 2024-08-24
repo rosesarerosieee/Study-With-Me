@@ -95,6 +95,10 @@
     background-color: red;
 }
 
+.audioname, .artisname{
+    font-size: 1.3rem;
+}
+
 
 
 .audio-text{
@@ -115,10 +119,6 @@
 }
 
 @media (max-width: 767px){
-    .audio-container{
-
-    }
-
     .audio-icons-container{
         position: relative;
         width: 250px;
@@ -140,5 +140,32 @@
     .audio-text{
         width: 100px;
         height: auto;
+    }
+}
+
+
+@media (min-width: 768px) and (max-width: 1023px){
+
+    .audio-icons-container{
+        position: relative;
+        width: 350px;
+        height: auto;
+        
+    }
+
+    .audioname, .artisname{
+        font-size: 1rem;
+    }
+    .artisname{
+        font-weight: bolder;
+    }
+
+    .audio-slider{
+        width: 200px;
+    }
+
+    .audio-text{
+        width: 150px;
+        height: 50px;
     }
 }

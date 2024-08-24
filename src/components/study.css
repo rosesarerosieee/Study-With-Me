@@ -173,13 +173,6 @@
     text-decoration: line-through;
 }
 
-
-
-
-
-
-
-
 @keyframes show {
     0%{
         opacity: 0;
@@ -220,7 +213,7 @@
     position: fixed;
     left: 0;
     margin-left: 20px;
-    z-index: 20;
+    z-index: 100000;
     display: block;
     cursor: pointer;
     
@@ -248,8 +241,6 @@
     transform: translateY(-10px) rotate(-45deg);
 }
 
-
-
 .overview{
     position: absolute;
     left: -100%;
@@ -263,7 +254,7 @@
     justify-content: center;
     flex-direction: column;
     text-align: center;
-
+    z-index: 1000;
 }
 
 .completed-task{
@@ -335,12 +326,9 @@
     transform: pop-up 1s ease-in-out;
 }
 
-
-
 li{
     cursor: pointer;
 }
-
 
 
 @media (max-width: 767px){
@@ -389,4 +377,20 @@ li{
         align-self: center;
         padding: 0;
     }
+}
+
+@media (min-width: 768px) and (max-width: 1023px){
+    .trash-can, .trash-undo{
+        font-size: 1rem;
+    }
+
+    .ul-task{
+        height: 200px;
+    }
+
+    .list-task{
+        height: 50px;
+    }
+    
+    
 }
