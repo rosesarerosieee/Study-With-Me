@@ -1,3 +1,11 @@
+:root{
+    --color1: #1DB954;
+    --color2: #212121;
+    --color3: #121212;
+    --color4: #B3B3B3;
+    --color5: #ffffff;
+}
+
 .container{
     display: flex;
     align-items: center;
@@ -6,6 +14,7 @@
     padding: 20px;
     width: 100%;
     height: 90vh;
+    background-color: var(--color3);
 
 }
 
@@ -17,6 +26,7 @@
     font-weight: bolder;
     font-size: 2rem;
     margin-bottom: 20px;
+   color: var(--color4);
 }
 
 .card{
@@ -25,7 +35,7 @@
     display: flex;
     align-items: center;
     flex-direction: column;
-    background-color: cyan;
+    background-color: var(--color5);
     width: 400px;
     height: 80vh;
     border-radius: 20px;
@@ -49,11 +59,21 @@
 
 .start-time, .reset{
     cursor: pointer;
+    font-size: 1.5rem;
+}
+
+.start-time:hover, .reset :hover{
+    color: var(--color1);
 }
 
 .timer-format{
     position: relative; 
     margin: 20px;
+    cursor: pointer;
+}
+
+.timer-format:hover{
+    color: var(--color1);
 }
 
 .number-of-task-container{
@@ -101,20 +121,33 @@
     justify-content: center;
 }
 
+.enter-task button:hover{
+    background-color: var(--color1);
+}
+
 .enter-task button{
     width: 100px;
     height: 30px;
     border-radius: 30px;
+    cursor: pointer;
 }
 
 .delete-all, .uncomplete-all{
     position: relative;
     animation: show 1s ease-in-out;
     opacity: 0;
+    color: var(--color3);
+    font-weight: bolder;
+    margin: 20px;
 }
 
 .trash-can, .trash-undo{
     cursor: pointer;
+    font-size: 1.5rem;
+}
+
+.trash-can:hover, .trash-undo:hover{
+    color: var(--color1);
 }
 
 
@@ -125,7 +158,6 @@
     height: 250px;
     overflow-y: auto;
     list-style: circle;
-    background-color: cyan;
 }
 
 .list-task{
@@ -138,7 +170,7 @@
     padding: 10px;
     overflow: hidden;
     text-align: center;
-    background-color: blue;
+    background-color: var(--color1);
     color: white;
 }   
 
@@ -159,17 +191,27 @@
     font-weight: 600;
 }
 
+.task-text:hover{
+    color: var(--color3);
+}
+
 .delete-task{
     font-size: 1.2rem;
+}
+
+.delete-task:hover{
+    color: var(--color3);
 }
 
 .done{
     text-decoration: line-through;
     background-color: black;
     transition: all 1s ease-in-out;
+    color: var(--color1);
 }
 
 .list-task.done .task-text{
+    color: var(--color1);
     text-decoration: line-through;
 }
 
@@ -225,7 +267,7 @@
     margin: 5px auto;
     width: 30px;
     height: 5px;
-    background-color: red;
+    background-color: var(--color1);
     transition: all 0.3s ease;
 }
 
@@ -247,7 +289,7 @@
     width: 450px;
     height: 100%;
     top: 0;
-    background-color: rebeccapurple;
+    background-color: var(--color5);
     display: flex;
     align-items: center;
     gap: 20px;

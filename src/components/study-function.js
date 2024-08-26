@@ -26,10 +26,8 @@ const Study =() => {
     const [animeteState , setAnimateState] = useState(false);
     const [isActive, setIsActive] = useState(false);
     const [buttonShow, setButtonShow] = useState(false);
-
         
     {/*Time function */}
-
     const updateTime = () => {
         if(isRunning){
             const now = Date.now();
@@ -176,8 +174,45 @@ const Study =() => {
             triggerAnimation();
         }
       },[tasks]);
+
+
+      {/*Save the task and the timer to local storage */}
+      useEffect(() => {
+        console.log('Tasks saved:', tasks);
+        console.log('Time saved:', time);
+        console.log('Is running saved:', isRunning);
+        localStorage.setItem('tasks', JSON.stringify(tasks));
+        localStorage.setItem('time', JSON.stringify(time));
+        localStorage.setItem('isRunning', JSON.stringify(isRunning));
+        localStorage.setItem('startTimeRef', startTimeRef.current);
+    }, [tasks, time, isRunning]);
+    
+      useEffect(() => {
+
+        const savedTasks = JSON.parse(localStorage.getItem('tasks'));
+        const savedTime = localStorage.getItem('time');
+        const savedIsRunning = JSON.parse(localStorage.getItem('isRunning'));
+        const savedStartTimeRef = localStorage.getItem('startTimeRef');
+
+        if(Array.isArray(savedTasks)){
+            setTasks(savedTasks);
+        }
+
+        if(!isNaN(savedTime)){
+            setTime(Number(savedTime));
+        }
+
+        if(savedIsRunning){
+            setIsRunning(savedIsRunning);
+            startTimeRef.current = Number(savedStartTimeRef);
+            if(savedIsRunning){
+                intervalRef.current = setInterval(updateTime,10);
+            }
+        }
+      },[]);
       
-        
+
+
     return (
         <>
         <div className="container">
