@@ -2,7 +2,6 @@ import React, {useState, useEffect, useRef} from "react";
 import './study.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faPlay, faStop, faRotateLeft, faTrash, faMinus, faTrashCan, faTrashRestore} from '@fortawesome/free-solid-svg-icons';
-
 const Study =() => {
 
     {/*Need to do is the what time the task got completed*/}
@@ -26,6 +25,9 @@ const Study =() => {
     const [animeteState , setAnimateState] = useState(false);
     const [isActive, setIsActive] = useState(false);
     const [buttonShow, setButtonShow] = useState(false);
+
+    {/*from lofi music var*/}
+    const [isPlaying, setIsplaying] = useState(false);
         
     {/*Time function */}
     const updateTime = () => {
@@ -62,7 +64,7 @@ const Study =() => {
         alert('Please Enter a task first so you can start the timer.');
         return;
        }
-       setIsRunning(!isRunning);        
+       setIsRunning(!isRunning);       
     }
     
     const handleReset = () => {
@@ -175,43 +177,50 @@ const Study =() => {
         }
       },[tasks]);
 
-
       {/*Save the task and the timer to local storage */}
       useEffect(() => {
-        console.log('Tasks saved:', tasks);
-        console.log('Time saved:', time);
-        console.log('Is running saved:', isRunning);
-        localStorage.setItem('tasks', JSON.stringify(tasks));
-        localStorage.setItem('time', JSON.stringify(time));
-        localStorage.setItem('isRunning', JSON.stringify(isRunning));
-        localStorage.setItem('startTimeRef', startTimeRef.current);
-    }, [tasks, time, isRunning]);
-    
-      useEffect(() => {
+        console.log('Saving tasks:', tasks);
+        console.log('Saving time:', time);
+        console.log('Saving isRunning:', isRunning);
+        console.log('Saving startTimeRef:', startTimeRef.current);
 
-        const savedTasks = JSON.parse(localStorage.getItem('tasks'));
+        localStorage.setItem('tasks', JSON.stringify(tasks));
+        localStorage.setItem('time', time.toString());
+        localStorage.setItem('isRunning', JSON.stringify(isRunning));
+        localStorage.setItem('startTimeRef', startTimeRef.current ? startTimeRef.current.toString() : '');
+    }, [tasks, time, isRunning]);
+
+    {/* Load data from local storage */}
+    useEffect(() => {
+        const savedTasks = JSON.parse(localStorage.getItem('tasks')) || [];
         const savedTime = localStorage.getItem('time');
         const savedIsRunning = JSON.parse(localStorage.getItem('isRunning'));
         const savedStartTimeRef = localStorage.getItem('startTimeRef');
-
-        if(Array.isArray(savedTasks)){
+    
+        if (Array.isArray(savedTasks) && savedTasks.length > 0) {
             setTasks(savedTasks);
         }
-
-        if(!isNaN(savedTime)){
+    
+        if (savedTime && !isNaN(savedTime)) {
             setTime(Number(savedTime));
         }
-
-        if(savedIsRunning){
+    
+        if (savedIsRunning !== null) {
             setIsRunning(savedIsRunning);
-            startTimeRef.current = Number(savedStartTimeRef);
-            if(savedIsRunning){
-                intervalRef.current = setInterval(updateTime,10);
-            }
         }
-      },[]);
-      
-
+    
+        if (savedStartTimeRef) {
+            startTimeRef.current = Number(savedStartTimeRef);
+        }
+    
+        // Start the timer if it was running before the page was refreshed
+        if (savedIsRunning) {
+            const now = Date.now();
+            const elapsed = now - Number(savedStartTimeRef);
+            setTime(prevTime => prevTime + elapsed);
+            setIsRunning(true);
+        }
+    }, []);
 
     return (
         <>

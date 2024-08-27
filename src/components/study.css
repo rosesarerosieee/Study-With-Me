@@ -388,7 +388,8 @@ li{
     }
     
     .overview{
-        width: 300px;
+        width: 250px;
+        height: 50%;
         z-index: 1000;
     }
 

@@ -7,19 +7,13 @@ import { audioFile } from './audiofile';
 
 const Lofimusic = () => {
 
-    
     const audioRef = useRef(null);
     const [isPlaying, setIsPlaying] = useState(false);
     const [currentAudio, setCurrentAudio] = useState(0);
     const [duration, setDuration] = useState(0);
     const [currentTime, setCurrentTime] = useState(0);
 
-
-
-
-
     useEffect(() => {
-
         const audio = audioRef.current
         
         const handleAudioEnded = () => {
