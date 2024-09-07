@@ -46,14 +46,6 @@ const Study = () => {
   const [buttonShow, setButtonShow] = useState(false);
 
   {
-<<<<<<< HEAD
-=======
-    /*from lofi music var*/
-  }
-  const [isPlaying, setIsplaying] = useState(false);
-
-  {
->>>>>>> 0d563d96493311f8a529fd7e058f7a968bb5fcd8
     /*Time function */
   }
   const updateTime = () => {
@@ -139,18 +131,10 @@ const Study = () => {
 
     setTasks(updateTasks);
   };
-<<<<<<< HEAD
-=======
-
->>>>>>> 0d563d96493311f8a529fd7e058f7a968bb5fcd8
   const handleDelete = (index) => {
     const deletedTasks = tasks.filter((_, i) => i !== index);
 
     setTasks(deletedTasks);
-<<<<<<< HEAD
-=======
-    localStorage.setItem("tasks", JSON.stringify(deletedTasks));
->>>>>>> 0d563d96493311f8a529fd7e058f7a968bb5fcd8
 
     if (deletedTasks.length === 0) {
       setIsActive(false);
@@ -160,10 +144,6 @@ const Study = () => {
   const handleDeleteAll = () => {
     setTasks([]);
     setIsActive(false);
-<<<<<<< HEAD
-=======
-    localStorage.removeItem("tasks");
->>>>>>> 0d563d96493311f8a529fd7e058f7a968bb5fcd8
   };
 
   const handlePendingTasks = () => {
@@ -196,7 +176,6 @@ const Study = () => {
     setAnimateState(true);
     setTimeout(() => setAnimateState(true), 1000);
   };
-<<<<<<< HEAD
 
   const triggerHamburger = () => {
     if (tasks.length !== 0) {
@@ -236,42 +215,6 @@ const Study = () => {
       <div className="container">
         <h2 className="Title">Study With Me</h2>
 
-=======
-
-  const triggerHamburger = () => {
-    if (tasks.length !== 0) {
-      setIsActive(!isActive);
-    } else {
-      alert("Please Enter a task");
-    }
-  };
-
-  useEffect(() => {
-    if (tasks) {
-      triggerAnimation();
-    }
-  }, [tasks]);
-
-  // code to store and fetch the data from local storage
-  useEffect(() => {
-    if (tasks.length > 0) {
-      localStorage.setItem("tasks", JSON.stringify(tasks));
-    }
-  }, [tasks]);
-
-  useEffect(() => {
-    const storedTasks = JSON.parse(localStorage.getItem("tasks"));
-    if (storedTasks) {
-      setTasks(storedTasks);
-    }
-  }, []);
-
-  return (
-    <>
-      <div className="container">
-        <h2 className="Title">Study With Me</h2>
-
->>>>>>> 0d563d96493311f8a529fd7e058f7a968bb5fcd8
         <div
           className={`humberger ${isActive ? "active" : ""}`}
           onClick={triggerHamburger}
