@@ -207,6 +207,7 @@ const Study = () => {
         if (StoredTime) {
             setTime(StoredTime);
         }
+        
     }, []);
 
   return (
