@@ -372,6 +372,9 @@ li{
     cursor: pointer;
 }
 
+.hiddenn{
+    visibility: hidden;
+}
 
 @media (max-width: 767px){
     .card{

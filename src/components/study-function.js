@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import "./study.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -6,29 +6,15 @@ import {
   faStop,
   faRotateLeft,
   faTrash,
-  faMinus,
   faTrashCan,
   faTrashRestore,
 } from "@fortawesome/free-solid-svg-icons";
 const Study = () => {
-  {
-    /*Need to do is the what time the task got completed*/
-  }
-  {
-    /* Finalize the design and make it responsive   */
-  }
-
-  {
-    /*Time variables */
-  }
   const [time, setTime] = useState(0);
   const [isRunning, setIsRunning] = useState(false);
   const intervalRef = useRef(null);
   const startTimeRef = useRef(null);
 
-  {
-    /*Task variables S*/
-  }
   const [tasks, setTasks] = useState([]);
   const [taskInput, setTaskInput] = useState("");
   const [pendingTask, setPendingTasks] = useState(false);
@@ -38,16 +24,10 @@ const Study = () => {
     .filter((task) => task.completed)
     .map((task) => task.text);
 
-  {
-    /*animate state variable */
-  }
   const [animeteState, setAnimateState] = useState(false);
   const [isActive, setIsActive] = useState(false);
   const [buttonShow, setButtonShow] = useState(false);
 
-  {
-    /*Time function */
-  }
   const updateTime = () => {
     if (isRunning) {
       const now = Date.now();
@@ -102,9 +82,6 @@ const Study = () => {
     return `${formattedHours}:${formattedMinutes}:${formattedSeconds}.${formattedMilliseconds}`;
   };
 
-  {
-    /*Task Functions */
-  }
   const handleSubmit = (e) => {
     e.preventDefault();
     if (taskInput.trim() !== "") {
@@ -146,31 +123,31 @@ const Study = () => {
     setIsActive(false);
   };
 
-  const handlePendingTasks = () => {
+  const handlePendingTasks = useCallback(() => {
     if (tasks.length > 0) {
       setPendingTasks(true);
     } else {
       setPendingTasks(false);
     }
-  };
+  }, [tasks]);
 
   useEffect(() => {
     handlePendingTasks();
     triggerAnimation();
-  }, [tasks]);
+  }, [tasks, handlePendingTasks]);
 
-  const handleCompletedTasks = () => {
+  const handleCompletedTasks = useCallback(() => {
     if (tasks.length > 0) {
       setIsCompleted(true);
     } else {
       setIsCompleted(false);
     }
-  };
+  }, [tasks]);
 
   useEffect(() => {
     handleCompletedTasks();
     triggerAnimation();
-  }, [tasks]);
+  }, [tasks, handleCompletedTasks]); // Added handleCompletedTasks
 
   const triggerAnimation = () => {
     setAnimateState(true);
@@ -193,22 +170,22 @@ const Study = () => {
 
   useEffect(() => {
     if (tasks.length > 0) {
-        localStorage.setItem("tasks", JSON.stringify(tasks));
-        localStorage.setItem("time", JSON.stringify(time));
+      localStorage.setItem("tasks", JSON.stringify(tasks));
+      localStorage.setItem("time", JSON.stringify(time));
     }
-  }, [tasks]);
-    
-    useEffect(() => {
-        const StoredTask = JSON.parse(localStorage.getItem("tasks"));
-        const StoredTime = JSON.parse(localStorage.getItem("time"));
-        if (StoredTask) {
-            setTasks(StoredTask)
-        }
-        if (StoredTime) {
-            setTime(StoredTime);
-        }
-        
-    }, []);
+  }, [tasks, time]);
+
+  useEffect(() => {
+    const StoredTask = JSON.parse(localStorage.getItem("tasks"));
+    const StoredTime = JSON.parse(localStorage.getItem("time"));
+    if (StoredTask) {
+      setTasks(StoredTask);
+    }
+    if (StoredTime) {
+      setTime(StoredTime);
+    }
+  }, []);
+
 
   return (
     <>
@@ -371,6 +348,11 @@ const Study = () => {
             ))}
           </ul>
         </div>
+      </div>
+
+      <div className="hiddenn">
+        <p> {buttonShow}</p>
+        <p> {completedTasks}</p>
       </div>
     </>
   );
