@@ -50,8 +50,7 @@ const Lofimusic = () => {
             audio.removeEventListener('ended', handleAudioEnded)
         }
 
-    },[currentAudio, isPlaying]);
-
+    },[currentAudio, isPlaying, duration]);
 
     const handlePlayPause = () => {
         setIsPlaying(!isPlaying)
